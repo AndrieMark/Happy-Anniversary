@@ -14,21 +14,76 @@ export default function App() {
   const [revealed, setRevealed] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
 
-  // ✅ Just use public paths
+  // Passcode states
+  const [enteredCode, setEnteredCode] = useState("");
+  const [phase, setPhase] = useState("lock"); // "lock" | "unlocked"
+
+  const correctCode = "143";
+
+  const handleUnlock = () => {
+    if (enteredCode === correctCode) {
+      setPhase("unlocked"); // sabay na mag show app + doors
+    } else {
+      alert("❌ Wrong passcode! Try again.");
+    }
+  };
+
   const images = [
     "/Happy-Anniversary/photos/puzzle-sample.jpg",
     "/Happy-Anniversary/photos/puzzle-sample.jpg",
     "/Happy-Anniversary/photos/puzzle-sample.jpg",
   ];
 
+  // 🔑 Passcode screen
+  if (phase === "lock") {
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-pink-400 via-rose-300 to-red-200 text-center">
+        <h1 className="text-3xl sm:text-5xl font-bold text-white drop-shadow mb-6">
+          🔒 Enter Passcode
+        </h1>
+        <input
+          type="password"
+          value={enteredCode}
+          onChange={(e) => setEnteredCode(e.target.value)}
+          placeholder="Enter code..."
+          className="px-4 py-2 rounded-lg border border-pink-300 text-center"
+        />
+        <button
+          onClick={handleUnlock}
+          className="mt-4 px-6 py-2 rounded-2xl bg-white/90 text-rose-600 font-semibold shadow hover:scale-105 transition"
+        >
+          Unlock 💝
+        </button>
+      </div>
+    );
+  }
+
+  // 🎉 Main Anniversary App (with doors + fireworks)
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="relative min-h-screen w-full bg-gradient-to-br from-pink-400 via-rose-300 to-red-200 flex flex-col overflow-hidden px-4 sm:px-6">
         <MusicPlayer />
         <HeartField />
+        <Fireworks trigger={true} />
 
-        {/* Centered content area */}
-        <div className="flex-1 flex flex-col justify-center items-center text-center">
+        {/* 🚪 Doors animation (overlay sa taas, sabay sa app) */}
+        <AnimatePresence>
+          <motion.div
+            initial={{ x: 0 }}
+            animate={{ x: "-100%" }}
+            transition={{ duration: 2 }}
+            className="absolute top-0 left-0 w-1/2 h-full bg-pink-500 shadow-2xl z-50"
+          />
+          <motion.div
+            initial={{ x: 0 }}
+            animate={{ x: "100%" }}
+            transition={{ duration: 2 }}
+            className="absolute top-0 right-0 w-1/2 h-full bg-pink-500 shadow-2xl z-50"
+          />
+        </AnimatePresence>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col justify-center items-center text-center relative z-10">
           <motion.h1
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -54,7 +109,7 @@ export default function App() {
               disabled={revealed}
               className="px-4 sm:px-6 py-2 sm:py-3 rounded-2xl bg-white/90 text-rose-600 font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.05] transition disabled:opacity-60 text-sm sm:text-base"
             >
-              {revealed ? "Surprise Unlocked ✨" : "Click for a Surprise 💝"}
+              {revealed ? "Surprise Unlocked ✨" : "Click for more Surprise 💝"}
             </button>
           </div>
 
@@ -67,8 +122,6 @@ export default function App() {
                 transition={{ duration: 0.6 }}
                 className="mt-6 sm:mt-8 w-full space-y-6"
               >
-                <Fireworks trigger={revealed} />
-
                 {/* Love Letter */}
                 <motion.div
                   initial={{ scale: 0.9, opacity: 0 }}
@@ -142,8 +195,13 @@ export default function App() {
         </div>
 
         {/* Modals */}
-        <Modal isOpen={activeModal === "memory"} onClose={() => setActiveModal(null)}>
-          <h2 className="text-xl sm:text-2xl font-bold text-rose-600">💭 Memory Together</h2>
+        <Modal
+          isOpen={activeModal === "memory"}
+          onClose={() => setActiveModal(null)}
+        >
+          <h2 className="text-xl sm:text-2xl font-bold text-rose-600">
+            💭 Memory Together
+          </h2>
           <p className="mt-3 text-rose-700 text-sm sm:text-base">
             Remember our first trip? Every moment is my favorite memory with you 💕
           </p>
@@ -154,24 +212,39 @@ export default function App() {
           />
         </Modal>
 
-        <Modal isOpen={activeModal === "puzzle"} onClose={() => setActiveModal(null)}>
-          <h2 className="text-xl sm:text-2xl font-bold text-rose-600 mb-4">🧩 Puzzle</h2>
+        <Modal
+          isOpen={activeModal === "puzzle"}
+          onClose={() => setActiveModal(null)}
+        >
+          <h2 className="text-xl sm:text-2xl font-bold text-rose-600 mb-4">
+            🧩 Puzzle
+          </h2>
           <PuzzleGame image="/Happy-Anniversary/photos/puzzle-sample.jpg" />
         </Modal>
 
-        <Modal isOpen={activeModal === "song"} onClose={() => setActiveModal(null)}>
-          <h2 className="text-xl sm:text-2xl font-bold text-rose-600">🎶 Our Song</h2>
+        <Modal
+          isOpen={activeModal === "song"}
+          onClose={() => setActiveModal(null)}
+        >
+          <h2 className="text-xl sm:text-2xl font-bold text-rose-600">
+            🎶 Our Song
+          </h2>
           <audio controls autoPlay className="mt-3 w-full">
             <source src="/Happy-Anniversary/music/romantic.mp3" type="audio/mpeg" />
           </audio>
         </Modal>
 
-        <Modal isOpen={activeModal === "photos"} onClose={() => setActiveModal(null)}>
-          <h2 className="text-xl sm:text-2xl font-bold text-rose-600">📸 Hidden Photos</h2>
+        <Modal
+          isOpen={activeModal === "photos"}
+          onClose={() => setActiveModal(null)}
+        >
+          <h2 className="text-xl sm:text-2xl font-bold text-rose-600">
+            📸 Hidden Photos
+          </h2>
           <Gallery images={images || []} />
         </Modal>
 
-        <footer className="text-white/80 text-xs sm:text-sm py-4 text-center">
+        <footer className="text-white/80 text-xs sm:text-sm py-4 text-center relative z-10">
           Made with ❤️ just for you
         </footer>
       </div>
