@@ -55,7 +55,7 @@ export default function PuzzlePiece({ id, row, col, grid, image, size = 80 }) {
         </clipPath>
       </defs>
       <image
-        href={image}
+        xlinkHref={image}   // ✅ use xlinkHref instead of href
         x={-col * size}
         y={-row * size}
         width={grid * size}

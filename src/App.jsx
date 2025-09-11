@@ -160,7 +160,7 @@ export default function App() {
 
         <Modal isOpen={activeModal === "puzzle"} onClose={() => setActiveModal(null)}>
           <h2 className="text-xl sm:text-2xl font-bold text-rose-600 mb-4">🧩 Puzzle</h2>
-          <PuzzleGame src="/photos/photo1.png" alt="memory" />
+          <PuzzleGame src="public/photos/puzzle-sample.jpg" alt="memory" />
         </Modal>
 
         <Modal isOpen={activeModal === "song"} onClose={() => setActiveModal(null)}>
