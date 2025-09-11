@@ -14,11 +14,11 @@ export default function App() {
   const [revealed, setRevealed] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
 
-  // ✅ always safe array
+  // ✅ Just use public paths
   const images = [
-    "/photos/puzzle-sample.jpg",
-    "/photos/puzzle-sample.jpg",
-    "/photos/puzzle-sample.jpg",
+    "/Happy-Anniversary/photos/puzzle-sample.jpg",
+    "/Happy-Anniversary/photos/puzzle-sample.jpg",
+    "/Happy-Anniversary/photos/puzzle-sample.jpg",
   ];
 
   return (
@@ -29,7 +29,6 @@ export default function App() {
 
         {/* Centered content area */}
         <div className="flex-1 flex flex-col justify-center items-center text-center">
-          {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -39,7 +38,6 @@ export default function App() {
             ❤️ Happy Anniversary ❤️
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -50,7 +48,6 @@ export default function App() {
             favorite adventure. 💕
           </motion.p>
 
-          {/* Surprise Button */}
           <div className="mt-6 sm:mt-8">
             <button
               onClick={() => setRevealed(true)}
@@ -61,7 +58,6 @@ export default function App() {
             </button>
           </div>
 
-          {/* Surprise Content */}
           <AnimatePresence>
             {revealed && (
               <motion.div
@@ -160,13 +156,13 @@ export default function App() {
 
         <Modal isOpen={activeModal === "puzzle"} onClose={() => setActiveModal(null)}>
           <h2 className="text-xl sm:text-2xl font-bold text-rose-600 mb-4">🧩 Puzzle</h2>
-          <PuzzleGame src="public/photos/puzzle-sample.jpg" alt="memory" />
+          <PuzzleGame image="/Happy-Anniversary/photos/puzzle-sample.jpg" />
         </Modal>
 
         <Modal isOpen={activeModal === "song"} onClose={() => setActiveModal(null)}>
           <h2 className="text-xl sm:text-2xl font-bold text-rose-600">🎶 Our Song</h2>
           <audio controls autoPlay className="mt-3 w-full">
-            <source src="/music/romantic.mp3" type="audio/mpeg" />
+            <source src="/Happy-Anniversary/music/romantic.mp3" type="audio/mpeg" />
           </audio>
         </Modal>
 
@@ -175,7 +171,6 @@ export default function App() {
           <Gallery images={images || []} />
         </Modal>
 
-        {/* Footer at bottom */}
         <footer className="text-white/80 text-xs sm:text-sm py-4 text-center">
           Made with ❤️ just for you
         </footer>
