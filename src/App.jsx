@@ -16,9 +16,9 @@ export default function App() {
 
   // ✅ always safe array
   const images = [
-    "/photos/puzzle-sample.jpg",
-    "/photos/puzzle-sample.jpg",
-    "/photos/puzzle-sample.jpg",
+    "public/photos/puzzle-sample.jpg",
+    "public/photos/puzzle-sample.jpg",
+    "public/photos/puzzle-sample.jpg",
   ];
 
   return (
@@ -160,7 +160,7 @@ export default function App() {
 
         <Modal isOpen={activeModal === "puzzle"} onClose={() => setActiveModal(null)}>
           <h2 className="text-xl sm:text-2xl font-bold text-rose-600 mb-4">🧩 Puzzle</h2>
-          <PuzzleGame image="/photos/puzzle-sample.jpg" />
+          <PuzzleGame image="public/photos/puzzle-sample.jpg" />
         </Modal>
 
         <Modal isOpen={activeModal === "song"} onClose={() => setActiveModal(null)}>
